@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import httpx
 
-from app.config import settings
+from config import settings
 
 
 @dataclass

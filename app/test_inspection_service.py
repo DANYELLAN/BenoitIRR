@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.database import Base
-from app.schemas import InspectionSubmit
-from app.services.inspection_service import InspectionService
+from database import Base
+from schemas import InspectionSubmit
+from services.inspection_service import InspectionService
 
 
 def _session():

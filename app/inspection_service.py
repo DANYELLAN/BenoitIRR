@@ -5,8 +5,8 @@ from datetime import datetime
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.entities import InspectionRecord, NCRRecord
-from app.schemas import InspectionStatus, InspectionSubmit
+from entities import InspectionRecord, NCRRecord
+from schemas import InspectionStatus, InspectionSubmit
 
 
 WORKSTATION_MAP = {

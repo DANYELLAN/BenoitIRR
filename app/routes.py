@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.database import get_db
-from app.entities import InspectionRecord
-from app.schemas import HealthResponse, InspectionResponse, InspectionSubmit, LoginContext, LoginProfile
-from app.services.inspection_service import InspectionService
-from app.services.sharepoint_service import SharePointService
+from database import get_db
+from entities import InspectionRecord
+from schemas import HealthResponse, InspectionResponse, InspectionSubmit, LoginContext, LoginProfile
+from services.inspection_service import InspectionService
+from services.sharepoint_service import SharePointService
 
 router = APIRouter()
 sharepoint = SharePointService()
