@@ -16,6 +16,8 @@ Python/FastAPI backend for automating the pipe connector inspection workflow.
   - pass/fail route to `COMPLETED`, reinspection queues, or `SCRAPPED`
   - NCR auto-creation and open/closed handling
 - SQL persistence for inspection and NCR records.
+- Built-in browser UI (`/`) for local and collaborative shop-floor usage.
+- NCR queue is persisted in the local database with a manual `PENDING/SYNCED` SharePoint sync status (no automatic NCR SharePoint write).
 
 ## Configure
 
@@ -40,6 +42,15 @@ uvicorn app.main:app --reload
 ```
 
 API base URL: `http://127.0.0.1:8000/api`
+Web UI: `http://127.0.0.1:8000/`
+
+To share with other computers on the same network:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Then open `http://<your-local-ip>:8000/` from other devices.
 
 ## Endpoints
 
@@ -49,6 +60,8 @@ API base URL: `http://127.0.0.1:8000/api`
 - `GET /api/recipes/{connection_name}`
 - `POST /api/inspections`
 - `GET /api/inspections`
+- `GET /api/ncrs`
+- `PATCH /api/ncrs/{ncr_id}`
 
 ## Notes on SharePoint fields
 

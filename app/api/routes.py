@@ -5,8 +5,16 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.entities import InspectionRecord
-from app.schemas import HealthResponse, InspectionResponse, InspectionSubmit, LoginContext, LoginProfile
+from app.entities import InspectionRecord, NCRRecord
+from app.schemas import (
+    HealthResponse,
+    InspectionResponse,
+    InspectionSubmit,
+    LoginContext,
+    LoginProfile,
+    NCRResponse,
+    NCRSyncUpdate,
+)
 from app.services.inspection_service import InspectionService
 from app.services.sharepoint_service import SharePointService
 
@@ -64,3 +72,22 @@ async def submit_inspection(payload: InspectionSubmit, db: Session = Depends(get
 def list_inspections(db: Session = Depends(get_db)) -> list[InspectionResponse]:
     rows = db.scalars(select(InspectionRecord).order_by(InspectionRecord.created_at.desc())).all()
     return [InspectionResponse.model_validate(row) for row in rows]
+
+
+@router.get('/ncrs', response_model=list[NCRResponse])
+def list_ncrs(db: Session = Depends(get_db)) -> list[NCRResponse]:
+    rows = db.scalars(select(NCRRecord).order_by(NCRRecord.id.desc())).all()
+    return [NCRResponse.model_validate(row) for row in rows]
+
+
+@router.patch('/ncrs/{ncr_id}', response_model=NCRResponse)
+def update_ncr_sync_status(ncr_id: int, payload: NCRSyncUpdate, db: Session = Depends(get_db)) -> NCRResponse:
+    row = db.get(NCRRecord, ncr_id)
+    if not row:
+        raise HTTPException(status_code=404, detail='NCR not found')
+
+    row.sharepoint_sync_status = payload.sharepoint_sync_status
+    row.sharepoint_synced_at = datetime.utcnow() if payload.sharepoint_sync_status == 'SYNCED' else None
+    db.commit()
+    db.refresh(row)
+    return NCRResponse.model_validate(row)
