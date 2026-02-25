@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.database import Base
+from app.entities import NCRRecord
 from app.schemas import InspectionSubmit
 from app.services.inspection_service import InspectionService
 
@@ -50,6 +51,8 @@ def test_failed_without_approval_goes_to_second_inspection():
     )
     rec = svc.submit_inspection(db, payload, {'limits': {'od': {'min': 1.0, 'max': 1.1}}})
     assert rec.status == 'SECOND_INSPECTION'
+    ncr = db.query(NCRRecord).filter(NCRRecord.inspection_id == rec.id).one()
+    assert ncr.sharepoint_sync_status == 'PENDING'
 
 
 def test_failed_with_tier1_is_scrapped():

@@ -38,5 +38,7 @@ class NCRRecord(Base):
     nonconformance: Mapped[str] = mapped_column(Text)
     immediate_containment: Mapped[str] = mapped_column(Text)
     status: Mapped[str] = mapped_column(String(16), default='OPEN')
+    sharepoint_sync_status: Mapped[str] = mapped_column(String(16), default='PENDING')
+    sharepoint_synced_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     inspection: Mapped['InspectionRecord'] = relationship(back_populates='ncr')

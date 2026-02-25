@@ -54,5 +54,22 @@ class InspectionResponse(BaseModel):
     status: InspectionStatus
 
 
+class NCRResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    inspection_id: int
+    tier_code: str
+    nonconformance: str
+    immediate_containment: str
+    status: str
+    sharepoint_sync_status: str
+    sharepoint_synced_at: datetime | None
+
+
+class NCRSyncUpdate(BaseModel):
+    sharepoint_sync_status: str = Field(pattern='^(PENDING|SYNCED)$')
+
+
 class HealthResponse(BaseModel):
     status: str = 'ok'
