@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benoit IRR Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Benoit IRR Collaborative Dashboard</h1>
+      <p class="muted">Run this app on a local server and use it from any browser on your network.</p>
+
+      <section class="card">
+        <h2>1) Inspector Login</h2>
+        <form id="login-form" class="grid">
+          <input name="adp_number" placeholder="ADP Number" required />
+          <input name="workstation" placeholder="Workstation (QMS-ENNIS-M1)" required />
+          <button type="submit">Login</button>
+        </form>
+        <pre id="login-output"></pre>
+      </section>
+
+      <section class="card">
+        <h2>2) Submit Inspection</h2>
+        <form id="inspection-form" class="grid two-col">
+          <input name="adp_number" placeholder="ADP Number" required />
+          <input name="inspector_name" placeholder="Inspector Name" required />
+          <input name="operator_name" placeholder="Operator Name" required />
+          <input name="workstation" placeholder="Workstation" required />
+          <input name="work_order" placeholder="Work Order" required />
+          <input name="connection" placeholder="Connection" required />
+          <input name="pipe_number" type="number" min="1" placeholder="Pipe #" required />
+          <input name="fai_number" placeholder="FAI #" required />
+          <input name="drawing_number" placeholder="Drawing #" required />
+          <input name="measurement_key" placeholder="Measurement key (od)" required />
+          <input name="measurement_value" type="number" step="0.0001" placeholder="Measurement value" required />
+          <select name="manager_approved">
+            <option value="false">Manager Approval: No</option>
+            <option value="true">Manager Approval: Yes</option>
+          </select>
+          <input name="tier_code" placeholder="Tier Code (optional)" />
+          <input name="nonconformance" placeholder="Nonconformance (optional)" />
+          <input name="immediate_containment" placeholder="Immediate Containment (optional)" />
+          <button type="submit">Submit Inspection</button>
+        </form>
+        <pre id="inspection-output"></pre>
+      </section>
+
+      <section class="card">
+        <h2>3) NCR Queue (Stored in DB, not SharePoint)</h2>
+        <button id="refresh-ncrs">Refresh NCR Queue</button>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Inspection</th><th>Tier</th><th>Status</th><th>SharePoint Sync</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="ncr-table"></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
